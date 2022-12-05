@@ -5,7 +5,7 @@ metadata:
   labels:
     tier: frontend
 spec:
-  replicas: 15
+  replicas: 3
   selector:
     matchLabels:
       tier: frontend
@@ -19,3 +19,12 @@ spec:
         image: nginx:latest
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: nginx-volume
+          mountPath: /usr/share/nginx/
+      volumes:
+      - name: nginx-volume
+        # This AWS EBS volume must already exist.
+        awsElasticBlockStore:
+          volumeID: "vol-030a87398db79d25b"
+          fsType: ext4
